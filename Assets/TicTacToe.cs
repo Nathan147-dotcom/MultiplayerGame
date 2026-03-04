@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class TicTacToe : MonoBehaviour
 {
-    Boolean checker;
+    bool checker;
     int plusOne;
 
     public Text btnText1 = null;
@@ -172,4 +173,142 @@ public class TicTacToe : MonoBehaviour
         }
         
     }
+
+    public void btnText1_Click(){
+        if(checker == false){
+            btnText1.text = "X";
+            checker = true;
+        }
+        else{
+            btnText1.text = "O";
+            checker = false;
+        }
+        Score();
+    }
+
+    public void btnText2_Click(){
+        if(checker == false){
+            btnText2.text = "X";
+            checker = true;
+        }
+        else{
+            btnText2.text = "O";
+            checker = false;
+        }
+        Score();
+    }
+
+    public void btnText3_Click(){
+        if(checker == false){
+            btnText3.text = "X";
+            checker = true;
+        }
+        else{
+            btnText3.text = "O";
+            checker = false;
+        }
+        Score();
+    }
+
+    public void btnText4_Click(){
+        if(checker == false){
+            btnText4.text = "X";
+            checker = true;
+        }
+        else{
+            btnText4.text = "O";
+            checker = false;
+        }
+        Score();
+    }
+
+    public void btnText5_Click(){
+        if(checker == false){
+            btnText5.text = "X";
+            checker = true;
+        }
+        else{
+            btnText5.text = "O";
+            checker = false;
+        }
+        Score();
+    }
+
+    public void btnText6_Click(){
+        if(checker == false){
+            btnText6.text = "X";
+            checker = true;
+        }
+        else{
+            btnText6.text = "O";
+            checker = false;
+        }
+        Score();
+    }
+
+    public void btnText7_Click(){
+        if(checker == false){
+            btnText7.text = "X";
+            checker = true;
+        }
+        else{
+            btnText7.text = "O";
+            checker = false;
+        }
+        Score();
+    }
+
+    public void btnText8_Click(){
+        if(checker == false){
+            btnText8.text = "X";
+            checker = true;
+        }
+        else{
+            btnText8.text = "O";
+            checker = false;
+        }
+        Score();
+    }
+
+    public void btnText9_Click(){
+        if(checker == false){
+            btnText9.text = "X";
+            checker = true;
+        }
+        else{
+            btnText9.text = "O";
+            checker = false;
+        }
+        Score();
+    }
+
+    public void btnResetGame_Click(){
+        btnText1.text = "";
+        btnText2.text = "";
+        btnText3.text = "";
+        btnText4.text = "";
+        btnText5.text = "";
+        btnText6.text = "";
+        btnText7.text = "";
+        btnText8.text = "";
+        btnText9.text = "";
+
+        btnText1.color = Color.black;
+        btnText2.color = Color.black;
+        btnText3.color = Color.black;
+        btnText4.color = Color.black;
+        btnText5.color = Color.black;
+        btnText6.color = Color.black;
+        btnText7.color = Color.black;
+        btnText8.color = Color.black;
+        btnText9.color = Color.black;
+    }
+
+    public void btnNewGame_Click(){
+        btnResetGame_Click();
+
+        txtPlayerX.text = "";
+        txtPlayerO.text = "";
+    }
+
 }
