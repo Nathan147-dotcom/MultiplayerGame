@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 using System;
 
-public class TicTacToe : MonoBehaviour
+public class TicTacToe : NetworkBehaviour
 {
-    bool checker;
+    private NetworkVariable<int> currentPlayer = new NetworkVariable<int>(0);
     int plusOne;
-
     public Text btnText1 = null;
     public Text btnText2 = null;
     public Text btnText3 = null;
@@ -18,15 +18,14 @@ public class TicTacToe : MonoBehaviour
     public Text btnText7 = null;
     public Text btnText8 = null;
     public Text btnText9 = null;
-
-    public Text btnResetGame = null;
-    public Text btnNewGame = null;
     public Text msgFeedback = null;
-
     public Text txtPlayerX;
     public Text txtPlayerO;
 
-    public void Score(){
+    public void score(){
+        if (!IsServer){
+            return;
+        }
         if(btnText1.text == "X" && btnText2.text == "X" && btnText3.text == "X"){
             btnText1.color = Color.red;
             btnText2.color = Color.red;
@@ -34,6 +33,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player X Wins";
             plusOne = int.Parse(txtPlayerX.text);
             txtPlayerX.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player X Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         if(btnText1.text == "X" && btnText4.text == "X" && btnText7.text == "X"){
@@ -43,6 +43,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player X Wins";
             plusOne = int.Parse(txtPlayerX.text);
             txtPlayerX.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player X Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
          if(btnText1.text == "X" && btnText5.text == "X" && btnText9.text == "X"){
@@ -52,6 +53,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player X Wins";
             plusOne = int.Parse(txtPlayerX.text);
             txtPlayerX.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player X Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         if(btnText3.text == "X" && btnText5.text == "X" && btnText7.text == "X"){
@@ -61,6 +63,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player X Wins";
             plusOne = int.Parse(txtPlayerX.text);
             txtPlayerX.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player X Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         if(btnText2.text == "X" && btnText5.text == "X" && btnText8.text == "X"){
@@ -70,15 +73,17 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player X Wins";
             plusOne = int.Parse(txtPlayerX.text);
             txtPlayerX.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player X Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         if(btnText3.text == "X" && btnText6.text == "X" && btnText9.text == "X"){
-            btnText1.color = Color.cyan;
-            btnText4.color = Color.cyan;
-            btnText7.color = Color.cyan;
+            btnText3.color = Color.cyan;
+            btnText6.color = Color.cyan;
+            btnText9.color = Color.cyan;
             msgFeedback.text = "Player X Wins";
             plusOne = int.Parse(txtPlayerX.text);
             txtPlayerX.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player X Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
          if(btnText4.text == "X" && btnText5.text == "X" && btnText6.text == "X"){
@@ -88,6 +93,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player X Wins";
             plusOne = int.Parse(txtPlayerX.text);
             txtPlayerX.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player X Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         if(btnText7.text == "X" && btnText8.text == "X" && btnText9.text == "X"){
@@ -97,6 +103,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player X Wins";
             plusOne = int.Parse(txtPlayerX.text);
             txtPlayerX.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player X Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         //***************************PlayerO*******************************************
@@ -107,6 +114,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player O Wins";
             plusOne = int.Parse(txtPlayerO.text);
             txtPlayerO.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player O Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         if(btnText1.text == "O" && btnText4.text == "O" && btnText7.text == "O"){
@@ -116,6 +124,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player O Wins";
             plusOne = int.Parse(txtPlayerO.text);
             txtPlayerO.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player O Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
          if(btnText1.text == "O" && btnText5.text == "O" && btnText9.text == "O"){
@@ -125,6 +134,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player O Wins";
             plusOne = int.Parse(txtPlayerO.text);
             txtPlayerO.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player O Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         if(btnText3.text == "O" && btnText5.text == "O" && btnText7.text == "O"){
@@ -134,6 +144,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player O Wins";
             plusOne = int.Parse(txtPlayerO.text);
             txtPlayerO.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player O Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         if(btnText2.text == "O" && btnText5.text == "O" && btnText8.text == "O"){
@@ -143,15 +154,17 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player O Wins";
             plusOne = int.Parse(txtPlayerO.text);
             txtPlayerO.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player O Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         if(btnText3.text == "O" && btnText6.text == "O" && btnText9.text == "O"){
-            btnText1.color = Color.cyan;
-            btnText4.color = Color.cyan;
-            btnText7.color = Color.cyan;
+            btnText3.color = Color.cyan;
+            btnText6.color = Color.cyan;
+            btnText9.color = Color.cyan;
             msgFeedback.text = "Player O Wins";
             plusOne = int.Parse(txtPlayerO.text);
             txtPlayerO.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player O Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
          if(btnText4.text == "O" && btnText5.text == "O" && btnText6.text == "O"){
@@ -161,6 +174,7 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player O Wins";
             plusOne = int.Parse(txtPlayerO.text);
             txtPlayerO.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player O Wins", txtPlayerX.text, txtPlayerO.text);
         }
 
         if(btnText7.text == "O" && btnText8.text == "O" && btnText9.text == "O"){
@@ -170,119 +184,93 @@ public class TicTacToe : MonoBehaviour
             msgFeedback.text = "Player O Wins";
             plusOne = int.Parse(txtPlayerO.text);
             txtPlayerO.text = Convert.ToString(plusOne + 1);
+            updateWinnerClientRpc("Player O Wins", txtPlayerX.text, txtPlayerO.text);
         }
         
     }
 
-    public void btnText1_Click(){
-        if(checker == false){
-            btnText1.text = "X";
-            checker = true;
-        }
-        else{
-            btnText1.text = "O";
-            checker = false;
-        }
-        Score();
+    public void btnText1_Click(){ 
+        sendMoveServerRpc(0); 
+    }
+    public void btnText2_Click(){ 
+        sendMoveServerRpc(1); 
+    }
+    public void btnText3_Click(){ 
+        sendMoveServerRpc(2);
+    }
+    public void btnText4_Click(){ 
+        sendMoveServerRpc(3); 
+    }
+    public void btnText5_Click(){ 
+        sendMoveServerRpc(4); 
+    }
+    public void btnText6_Click(){ 
+        sendMoveServerRpc(5); 
+    }
+    public void btnText7_Click(){ 
+        sendMoveServerRpc(6); 
+    }
+    public void btnText8_Click(){ 
+        sendMoveServerRpc(7); 
+    }
+    public void btnText9_Click(){ 
+        sendMoveServerRpc(8);
     }
 
-    public void btnText2_Click(){
-        if(checker == false){
-            btnText2.text = "X";
-            checker = true;
-        }
-        else{
-            btnText2.text = "O";
-            checker = false;
-        }
-        Score();
+    [ServerRpc]
+    void sendMoveServerRpc(int index)
+    {
+        if (!IsServer) return;
+        Text selected = getButton(index);
+        if (selected.text != "") return;
+
+        if (currentPlayer.Value == 0)
+            selected.text = "X";
+        else
+            selected.text = "O";
+        updateBoardClientRpc(index, selected.text);
+        score();
+        currentPlayer.Value = 1 - currentPlayer.Value;
     }
 
-    public void btnText3_Click(){
-        if(checker == false){
-            btnText3.text = "X";
-            checker = true;
-        }
-        else{
-            btnText3.text = "O";
-            checker = false;
-        }
-        Score();
+    [ClientRpc]
+    void updateBoardClientRpc(int index, string value)
+    {
+        if (IsServer){
+            return;
+        } 
+        Text selected = getButton(index);
+        selected.text = value;
     }
 
-    public void btnText4_Click(){
-        if(checker == false){
-            btnText4.text = "X";
-            checker = true;
-        }
-        else{
-            btnText4.text = "O";
-            checker = false;
-        }
-        Score();
+
+    [ClientRpc]
+    void updateWinnerClientRpc(string message, string scoreX, string scoreO)
+    {
+        msgFeedback.text = message;
+        txtPlayerX.text = scoreX;
+        txtPlayerO.text = scoreO;
     }
 
-    public void btnText5_Click(){
-        if(checker == false){
-            btnText5.text = "X";
-            checker = true;
-        }
-        else{
-            btnText5.text = "O";
-            checker = false;
-        }
-        Score();
+    public void btnResetGame_Click()
+    {
+        resetBoardServerRpc();
     }
 
-    public void btnText6_Click(){
-        if(checker == false){
-            btnText6.text = "X";
-            checker = true;
-        }
-        else{
-            btnText6.text = "O";
-            checker = false;
-        }
-        Score();
+    [ServerRpc]
+    void resetBoardServerRpc()
+    {
+        if (!IsServer) return;
+        currentPlayer.Value = 0;
+        resetBoardClientRpc();
     }
 
-    public void btnText7_Click(){
-        if(checker == false){
-            btnText7.text = "X";
-            checker = true;
+    [ClientRpc]
+    public void resetBoardClientRpc(){
+        if (IsServer){
+            return;
         }
-        else{
-            btnText7.text = "O";
-            checker = false;
-        }
-        Score();
-    }
 
-    public void btnText8_Click(){
-        if(checker == false){
-            btnText8.text = "X";
-            checker = true;
-        }
-        else{
-            btnText8.text = "O";
-            checker = false;
-        }
-        Score();
-    }
-
-    public void btnText9_Click(){
-        if(checker == false){
-            btnText9.text = "X";
-            checker = true;
-        }
-        else{
-            btnText9.text = "O";
-            checker = false;
-        }
-        Score();
-    }
-
-    public void btnResetGame_Click(){
         btnText1.text = "";
         btnText2.text = "";
         btnText3.text = "";
@@ -292,6 +280,7 @@ public class TicTacToe : MonoBehaviour
         btnText7.text = "";
         btnText8.text = "";
         btnText9.text = "";
+        msgFeedback.text = "";
 
         btnText1.color = Color.black;
         btnText2.color = Color.black;
@@ -305,10 +294,43 @@ public class TicTacToe : MonoBehaviour
     }
 
     public void btnNewGame_Click(){
-        btnResetGame_Click();
+        resetBoardServerRpc();
 
-        txtPlayerX.text = "";
-        txtPlayerO.text = "";
+        if (IsServer)
+        {
+            txtPlayerX.text = "0";
+            txtPlayerO.text = "0";
+            updateWinnerClientRpc("", "0", "0");
+        }
     }
+
+    Text getButton(int index)
+    {
+        switch (index)
+        {
+            case 0: 
+            return btnText1;
+            case 1: 
+            return btnText2;
+            case 2: 
+            return btnText3;
+            case 3: 
+            return btnText4;
+            case 4: 
+            return btnText5;
+            case 5: 
+            return btnText6;
+            case 6: 
+            return btnText7;
+            case 7: 
+            return btnText8;
+            case 8: 
+            return btnText9;
+        }
+        return null;
+    }
+
+    
+
 
 }
