@@ -22,6 +22,13 @@ public class TicTacToe : NetworkBehaviour
     public Text txtPlayerX;
     public Text txtPlayerO;
 
+    public void StartHost(){
+        NetworkManager.Singleton.StartHost();
+    }
+    public void StartClient(){
+       NetworkManager.Singleton.StartClient(); 
+    }
+
     public void score(){
         if (!IsServer){
             return;
@@ -217,7 +224,7 @@ public class TicTacToe : NetworkBehaviour
         sendMoveServerRpc(8);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     void sendMoveServerRpc(int index)
     {
         if (!IsServer) return;
@@ -257,20 +264,29 @@ public class TicTacToe : NetworkBehaviour
         resetBoardServerRpc();
     }
 
+     
+
+   
+
+    
+        
+
+    
+
+
+    
+
+    
+
     [ServerRpc]
     void resetBoardServerRpc()
     {
-        if (!IsServer) return;
         currentPlayer.Value = 0;
         resetBoardClientRpc();
     }
 
     [ClientRpc]
-    public void resetBoardClientRpc(){
-        if (IsServer){
-            return;
-        }
-
+    void resetBoardClientRpc(){
         btnText1.text = "";
         btnText2.text = "";
         btnText3.text = "";
@@ -329,8 +345,5 @@ public class TicTacToe : NetworkBehaviour
         }
         return null;
     }
-
-    
-
 
 }
