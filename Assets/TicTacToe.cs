@@ -7,6 +7,7 @@ using System;
 
 public class TicTacToe : NetworkBehaviour
 {
+    //Track turn
     private NetworkVariable<int> currentPlayer = new NetworkVariable<int>(0);
     int plusOne;
     public Text btnText1 = null;
@@ -22,13 +23,16 @@ public class TicTacToe : NetworkBehaviour
     public Text txtPlayerX;
     public Text txtPlayerO;
 
+    //Host
     public void StartHost(){
         NetworkManager.Singleton.StartHost();
     }
+    //Client
     public void StartClient(){
        NetworkManager.Singleton.StartClient(); 
     }
 
+    //All win combinations
     public void score(){
         if (!IsServer){
             return;
@@ -196,6 +200,7 @@ public class TicTacToe : NetworkBehaviour
         
     }
 
+    //Send clicks/move to server
     public void btnText1_Click(){ 
         sendMoveServerRpc(0); 
     }
@@ -224,6 +229,7 @@ public class TicTacToe : NetworkBehaviour
         sendMoveServerRpc(8);
     }
 
+    //Server updates board where button was clicked
     [ServerRpc(RequireOwnership = false)]
     void sendMoveServerRpc(int index)
     {
@@ -239,7 +245,6 @@ public class TicTacToe : NetworkBehaviour
         score();
         currentPlayer.Value = 1 - currentPlayer.Value;
     }
-
     [ClientRpc]
     void updateBoardClientRpc(int index, string value)
     {
@@ -250,7 +255,7 @@ public class TicTacToe : NetworkBehaviour
         selected.text = value;
     }
 
-
+    //Update win message to client
     [ClientRpc]
     void updateWinnerClientRpc(string message, string scoreX, string scoreO)
     {
@@ -259,32 +264,17 @@ public class TicTacToe : NetworkBehaviour
         txtPlayerO.text = scoreO;
     }
 
+    //Reset board to all clients
     public void btnResetGame_Click()
     {
         resetBoardServerRpc();
     }
-
-     
-
-   
-
-    
-        
-
-    
-
-
-    
-
-    
-
     [ServerRpc]
     void resetBoardServerRpc()
     {
         currentPlayer.Value = 0;
         resetBoardClientRpc();
     }
-
     [ClientRpc]
     void resetBoardClientRpc(){
         btnText1.text = "";
@@ -309,6 +299,7 @@ public class TicTacToe : NetworkBehaviour
         btnText9.color = Color.black;
     }
 
+    //New game and score reset
     public void btnNewGame_Click(){
         resetBoardServerRpc();
 
